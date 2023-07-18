@@ -1,5 +1,5 @@
 # SipaaKernel
-The kernel behind SipaaOS.
+The kernel behind your favorite OS.
 
 ## Features
 * Architecture :
