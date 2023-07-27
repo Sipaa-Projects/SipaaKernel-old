@@ -196,8 +196,13 @@ int init_mouse() {
     mouse_write(MOUSE_CMD_ENABLE_PACKET_STREAMING);
     status = mouse_read();
     if(status != MOUSE_ACKNOWLEDGE) {
-        serial_puts(" FAIL\n");
-        return 1;
+        serial_puts("\ninit_mouse() Enabling packet streaming (because the first try failed)...");
+        mouse_write(MOUSE_CMD_ENABLE_PACKET_STREAMING);
+        status = mouse_read();
+        if(status != MOUSE_ACKNOWLEDGE) {
+            serial_puts(" FAIL\n");
+            return 1;
+        }
     }
     serial_puts(" OK\n");
 

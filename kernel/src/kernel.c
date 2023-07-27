@@ -19,6 +19,7 @@
 #include <tasking/tasking.h>
 #include <multiboot/boot_info.h>
 #include <debug/debug.h>
+#include <frameworks/syscall/syscall.h>
 
 void init(int (*func)(), char* name)
 {
@@ -29,7 +30,7 @@ void init(int (*func)(), char* name)
     }
     else
     {
-        serial_puts("kstart() It failed the loading...");
+        serial_puts("kstart() It failed the loading...\n");
     }
 }
 
@@ -69,6 +70,9 @@ void kstart(multiboot_info_t *mboot_info)
     serial_puts("kstart() Initializing TSS...\n");
     init(init_tss, "TSS");
     
+    serial_puts("kstart() Initializing syscalls...\n");
+    init(init_syscall, "Syscalls");
+
     serial_puts("kstart() Initializing KMem...\n");
     kmem_set_boot_info(mboot_info);
     init(init_kmem, "kmem");
@@ -77,7 +81,7 @@ void kstart(multiboot_info_t *mboot_info)
     set_screen_size((int)mboot_info->framebuffer_width, (int)mboot_info->framebuffer_height);
     init(init_mouse, "mouse");
 
-    __asm__ volatile("int3");
+    //__asm__ volatile("int3");
 
     Color white = from_argb(255, 255, 255, 255);
     Color black = from_argb(255, 0, 0, 0);
@@ -90,6 +94,8 @@ void kstart(multiboot_info_t *mboot_info)
     f.charwidth = DEFFONT_CHARWIDTH;
     f.charheight = DEFFONT_CHARHEIGHT;
     f.pixels = deffont;
+
+    __asm__ volatile("int $0x80");
 
     while (1)
     {
