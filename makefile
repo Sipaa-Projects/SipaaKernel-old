@@ -29,7 +29,7 @@ LD_FLAGS :=                 \
 
 kernel.elf: $(OBJS)
 	make asm
-	$(LD) $(LD_FLAGS) $(OBJS) entry.o load_gdt.o load_idt.o load_tss.o isr.o irq.o -o $@
+	$(LD) $(LD_FLAGS) $(OBJS) entry.o load_gdt.o load_idt.o load_tss.o isr.o rmusrh.o irq.o -o $@
 iso:
 	rm -rf iso_root
 	mkdir -p iso_root
@@ -56,6 +56,7 @@ asm:
 	nasm -f elf32 kernel/src/architecture/x86_32/load_tss.asm -o load_tss.o
 	nasm -f elf32 kernel/src/architecture/x86_32/isr.asm -o isr.o
 	nasm -f elf32 kernel/src/architecture/x86_32/irq.asm -o irq.o
+	nasm -f elf32 kernel/src/frameworks/rmusr/rmusrh.asm -o rmusrh.o
 
 run:
 	unset GTK_PATH

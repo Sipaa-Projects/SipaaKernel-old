@@ -83,6 +83,9 @@ void kstart(multiboot_info_t *mboot_info)
 
     //__asm__ volatile("int3");
 
+    init_usr();
+
+    /**
     Color white = from_argb(255, 255, 255, 255);
     Color black = from_argb(255, 0, 0, 0);
 
@@ -95,17 +98,6 @@ void kstart(multiboot_info_t *mboot_info)
     f.charheight = DEFFONT_CHARHEIGHT;
     f.pixels = deffont;
 
-    int syscallNumber = 1;
-    char* text = "Hello World";
-
-    __asm__ volatile(
-        "mov %1, %%ebx\n"   // Move the address of 'text' into EBX
-        "int $0x80\n"       // Invoke the syscall with int 0x80
-        :
-        : "r" (syscallNumber), "r" (text)
-        : "%ebx"    // Clobbered registers
-    );
-
     while (1)
     {
         clear_screen(black);
@@ -116,5 +108,6 @@ void kstart(multiboot_info_t *mboot_info)
         frames++;
         time = get_current_time();
     }
+    **/
 }
 
