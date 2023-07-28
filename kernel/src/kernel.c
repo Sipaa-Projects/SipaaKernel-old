@@ -51,6 +51,9 @@ void kstart(multiboot_info_t *mboot_info)
     set_bootinfo(mboot_info);
     init_libasg(mboot_info);
 
+    serial_puts("kstart() Initializing syscalls...\n");
+    init(init_syscall, "Syscalls");
+
     serial_puts("kstart() Initializing serial...\n");
     init(init_serial, "serial");
 
@@ -69,9 +72,6 @@ void kstart(multiboot_info_t *mboot_info)
 
     serial_puts("kstart() Initializing TSS...\n");
     init(init_tss, "TSS");
-    
-    serial_puts("kstart() Initializing syscalls...\n");
-    init(init_syscall, "Syscalls");
 
     serial_puts("kstart() Initializing KMem...\n");
     kmem_set_boot_info(mboot_info);
@@ -95,7 +95,16 @@ void kstart(multiboot_info_t *mboot_info)
     f.charheight = DEFFONT_CHARHEIGHT;
     f.pixels = deffont;
 
-    __asm__ volatile("int $0x80");
+    int syscallNumber = 1;
+    char* text = "Hello World";
+
+    __asm__ volatile(
+        "mov %1, %%ebx\n"   // Move the address of 'text' into EBX
+        "int $0x80\n"       // Invoke the syscall with int 0x80
+        :
+        : "r" (syscallNumber), "r" (text)
+        : "%ebx"    // Clobbered registers
+    );
 
     while (1)
     {

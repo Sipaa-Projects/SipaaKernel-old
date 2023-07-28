@@ -19,7 +19,8 @@
         "8259_pic.h": "c",
         "ioport.h": "c",
         "isr.h": "c",
-        "serial.h": "c"
+        "serial.h": "c",
+        "syscall.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
