@@ -15,11 +15,14 @@ The kernel behind your favorite OS.
 * Devices :
   * PS2 :
     * Mouse
+    * Keyboard
   * Serial
   * PIT
 * Frameworks :
   * KMem memory allocator
   * LibASG graphics library
-  * RMUSR (a really small lib for entering to userspace, who is broken)
+  * System library
+  * SysTime (not implemented)
+  * RMUSR (a really small lib for entering to userspace)
 * Standard Library (only strcat not working as expected sometimes)
       
