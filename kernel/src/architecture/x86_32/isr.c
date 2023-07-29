@@ -51,13 +51,14 @@ char *exception_messages[32] = {
 void isr_register_interrupt_handler(int num, ISR handler) {
     char *vect_str = "";
     itoa(vect_str, num, 10);
-    serial_puts("isr_register_interrupt_handler() A new interrupt handler for vector ");
-    serial_puts(vect_str);
-    serial_puts(" has been registered!\n");
 
     //printf("IRQ %d registered\n", num);
     if (num < NO_INTERRUPT_HANDLERS)
         g_interrupt_handlers[num] = handler;
+        
+    serial_puts("isr_register_interrupt_handler() A new interrupt handler for vector ");
+    serial_puts(vect_str);
+    serial_puts(" has been registered!\n");
 }
 
 /*

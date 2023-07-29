@@ -14,6 +14,7 @@
 #include <frameworks/rmusr/rmusr.h>
 #include <device/pit/pit.h>
 #include <device/ps2/mouse/mouse.h>
+#include <device/ps2/kb/kb.h>
 #include <device/serial/serial.h>
 #include <res/res.h>
 #include <tasking/tasking.h>
@@ -81,11 +82,26 @@ void kstart(multiboot_info_t *mboot_info)
     set_screen_size((int)mboot_info->framebuffer_width, (int)mboot_info->framebuffer_height);
     init(init_mouse, "mouse");
 
+    serial_puts("kstart() Initializing PS/2 Keyboard...\n");
+    init(init_kb, "kn");
+
     //__asm__ volatile("int3");
 
     init_usr();
 
     /**
+    **/
+}
+
+/**
+ * Userspace entry point
+*/
+void usr_main()
+{
+    int syscallNumber = 1;
+    char* text = "usr_main() Welcome to userspace!\n           Remember, don't return the function or it will invoke the Invalid Opcode handler & Don't use ring0 instructions like hlt.\n";
+    serial_puts(text);
+
     Color white = from_argb(255, 255, 255, 255);
     Color black = from_argb(255, 0, 0, 0);
 
@@ -108,6 +124,4 @@ void kstart(multiboot_info_t *mboot_info)
         frames++;
         time = get_current_time();
     }
-    **/
 }
-
