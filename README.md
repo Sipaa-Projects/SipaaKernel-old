@@ -1,3 +1,5 @@
+This old version of SipaaKernel is kept for posterity only. All the new work happens at [this repo](https://github.com/SipaaOS-Project/SipaaKernel)
+
 # SipaaKernel
 The kernel behind your favorite OS.
 
